@@ -31,12 +31,22 @@ if not does_file_exist_in_dir('people.json'):
             people[person]['num_messages'] = len(soup.find_all('p'))
             people[person]['message_years'] = {}
 
+            # index all messages of a person based on year/month/day
             for timestamp in soup.findAll(attrs={'class': 'meta'}):
-                msg_year = timestamp.text.split(',')[2].split('at')[0].replace(' ', '')
+                msg_year = int(timestamp.text.split(',')[2].split('at')[0].replace(' ', ''))
+                msg_month = month_dict[timestamp.text.split(',')[1].split(' ')[1].replace(' ', '')]
+                msg_day = int(timestamp.text.split(',')[1].split(' ')[2].replace(' ', ''))
+
                 if msg_year not in people[person]['message_years']:
-                    people[person]['message_years'][msg_year] = 1
+                    people[person]['message_years'][msg_year] = { msg_month : { msg_day : 1 }}
                 else:
-                    people[person]['message_years'][msg_year] += 1
+                    if msg_month not in people[person]['message_years'][msg_year]:
+                        people[person]['message_years'][msg_year][msg_month] = {msg_day : 1}
+                    else:
+                        if msg_day not in people[person]['message_years'][msg_year][msg_month]:
+                            people[person]['message_years'][msg_year][msg_month][msg_day] = 1
+                        else:
+                            people[person]['message_years'][msg_year][msg_month][msg_day] += 1
 
         f.close()
         print('{0}/{1} finished'.format(i, len(conversations)))
@@ -163,7 +173,7 @@ for name in people:
 
 print(add_friend_years)
 print(removed_friend_years)
-print(people['KavitaPatel'])
+print(people['ConorMcDonough'])
 
 
 with open('people.json', 'w') as fp:
