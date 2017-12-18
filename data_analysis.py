@@ -171,11 +171,6 @@ for name in people:
         total += 1
 
 
-print(add_friend_years)
-print(removed_friend_years)
-print(people['ConorMcDonough'])
-
-
 with open('people.json', 'w') as fp:
     json.dump(people, fp)
 
