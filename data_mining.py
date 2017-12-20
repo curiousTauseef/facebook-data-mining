@@ -57,20 +57,6 @@ if not does_file_exist_in_dir('people.json'):
 else:
     people = json.load(open('people.json'))
 
-# print list of people sorted by num messages
-sorted_people = sorted(people.items(), key=lambda x:x[1], reverse = True)
-
-
-# Number of people you have exchanged at least 2 messages with
-min_messages = 2
-count = 0
-for i in range(0, len(sorted_people)):
-    if(sorted_people[i][1] < min_messages):
-        count += 1
-        break
-    count = i
-
-
 
 # get list of when added/dropped
 f = open('html/friends.htm')
@@ -174,12 +160,3 @@ for name in people:
 
 with open('people.json', 'w') as fp:
     json.dump(people, fp)
-
-
-top = 300
-# print top 5 people
-#print('Top {0} communicators'.format(top))
-#for i in range(0, top):
-#    print('{0}: {1}'.format(sorted_people[i][0].encode('utf-8'), sorted_people[i][1]))
-
-#print("Number of people you have exchanged at least {0} messages with: {1}".format(min_messages, count))

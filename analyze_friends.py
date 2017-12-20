@@ -72,3 +72,22 @@ plt.xlabel('Year')
 plt.ylabel('Number of Added Friends')
 plt.title('Number of added friends per year')
 plt.show()
+
+# print list of people sorted by num messages
+sorted_people = sorted(people.items(), key = lambda x : x[1]['num_messages'], reverse = True)
+
+top = 10
+print('Top {0} communicators'.format(top))
+for i in range(0, top):
+   print('{0}: {1}'.format(sorted_people[i][0].encode('utf-8'), sorted_people[i][1]['num_messages']))
+
+# # Number of people you have exchanged at least 2 messages with
+min_messages = 100
+count = 0
+for i in range(0, len(sorted_people)):
+    if(sorted_people[i][1]['num_messages'] < min_messages):
+        count += 1
+        break
+    count = i
+
+print("Number of people you have exchanged at least {0} messages with: {1}".format(min_messages, count))
